@@ -35,6 +35,14 @@ public class SkillService {
     /** Only the skills of one type. */
     // SYLLABUS: Stream filter() with a lambda
     public List<Skill> getSkills(int userId, SkillType type) throws ServiceException {
+        if (userId <= 0) {
+        throw new ServiceException("Invalid user ID.");
+    }
+
+    if (type == null) {
+        throw new ServiceException("Skill type cannot be null.");
+    }
+
         return getSkills(userId).stream()
                 .filter(skill -> skill.getType() == type)
                 .collect(Collectors.toList());
