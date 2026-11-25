@@ -25,8 +25,12 @@ public interface CompatibilityScorer {
      */
     // SYLLABUS: Lambda expression implementing the custom functional interface
     CompatibilityScorer BALANCED = (theyCanTeachMe, iWantToLearn, theyWantFromMe, iCanTeach) -> {
-        double learnPart = iWantToLearn == 0 ? 0 : 50.0 * theyCanTeachMe / iWantToLearn;
-        double teachPart = iCanTeach == 0 ? 0 : 50.0 * theyWantFromMe / iCanTeach;
+        double learnPart = iWantToLearn <= 0 ? 0 :
+        50.0 * Math.max(0, Math.min(theyCanTeachMe, iWantToLearn)) / iWantToLearn;
+
+        double teachPart = iCanTeach <= 0 ? 0 :
+        50.0 * Math.max(0, Math.min(theyWantFromMe, iCanTeach)) / iCanTeach;
+        
         return Math.round((learnPart + teachPart) * 10) / 10.0;  // one decimal place
     };
 }
