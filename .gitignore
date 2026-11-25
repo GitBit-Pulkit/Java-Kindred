@@ -1,0 +1,15 @@
+# Local database credentials
+config/kindred.conf
+
+# Compiled Java output
+out/
+*.class
+
+# Temporary build files
+sources.txt
+
+# Runtime exported data and backups
+exports/
+
+# Archive files
+*.zip
