@@ -45,6 +45,13 @@ public class MatchService {
     }
 
     public List<Match> findMatches(User me, int limit) throws ServiceException {
+        if (me == null) {
+        throw new ServiceException("User cannot be null.");
+    }
+
+    if (limit <= 0) {
+        throw new ServiceException("Match limit must be greater than zero.");
+    }
         try {
             List<Skill> mySkills = skillDao.findByUser(me.getUserId());
             Set<String> myTeach = namesOfType(mySkills, SkillType.TEACH);
