@@ -73,6 +73,13 @@ public class AuthService {
     }
 
     public User login(String username, String password) throws ServiceException {
+                if (username == null || username.isBlank()) {
+            throw new ServiceException("Username cannot be empty.");
+        }
+        if (password == null || password.isBlank()) {
+            throw new ServiceException("Password cannot be empty.");
+        }
+
         try {
             Optional<User> found = userDao.findByUsername(username);
             // Same message for "no such user" and "wrong password", so nobody can tell which usernames exist.
