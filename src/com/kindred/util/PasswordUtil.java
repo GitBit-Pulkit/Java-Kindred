@@ -22,8 +22,11 @@ public final class PasswordUtil {
     private PasswordUtil() { }
 
     public static String hash(String plainPassword) {
+        if (plainPassword == null || plainPassword.isBlank()) {
+        throw new IllegalArgumentException("Password cannot be null or empty.");
+        }
         return BCrypt.hashpw(plainPassword, BCrypt.gensalt(WORK_FACTOR));
-    }
+        }
 
     /** True if the password matches. Returns false (no crash) if the stored hash is corrupted. */
     public static boolean verify(String plainPassword, String storedHash) {
