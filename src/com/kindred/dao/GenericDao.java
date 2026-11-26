@@ -16,6 +16,14 @@ import java.util.Optional;
  */
 // SYLLABUS: Generics - generic interface with two type parameters <T, ID>
 // SYLLABUS: CRUD Operations - Create, Read, Update, Delete contract
+
+/*
+ * GenericDao is a generic interface that defines the standard CRUD contract for all DAOs in this project.
+ * It uses two type parameters: T for the model type (like User or Skill) and ID for the primary key type.
+ * By implementing this interface, classes like UserDao and SkillDao are forced to provide consistent
+ * create, findById, findAll, update, and delete methods, ensuring type safety across the entire data layer.
+ */
+
 public interface GenericDao<T, ID> {
 
     /** CREATE: inserts the entity and returns the generated primary key. */
