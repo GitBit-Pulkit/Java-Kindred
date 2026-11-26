@@ -25,6 +25,7 @@ import java.util.Optional;
 
 
 //session dao
+//generix dao
 // SYLLABUS: CRUD Operations - implements GenericDao<SkillSession, Integer>
 public class SessionDao implements GenericDao<SkillSession, Integer> {
 
@@ -68,6 +69,7 @@ public class SessionDao implements GenericDao<SkillSession, Integer> {
      * Reads a session INSIDE a transaction and locks the row (FOR UPDATE),
      * so nobody can change its status until we commit or roll back.
      */
+    //sql
     public Optional<SkillSession> findByIdForUpdate(Connection conn, int id) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement(SELECT_JOIN + "WHERE s.session_id = ? FOR UPDATE")) {
             ps.setInt(1, id);
