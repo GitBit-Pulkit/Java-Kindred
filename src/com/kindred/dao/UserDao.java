@@ -38,6 +38,15 @@ public class UserDao implements GenericDao<User, Integer> {
 
     /** INSERT inside the caller's transaction. Returns the AUTO_INCREMENT id. */
     public int create(Connection conn, User user) throws SQLException {
+
+        
+        if (user == null) {
+        throw new IllegalArgumentException("User cannot be null.");
+        }
+        if (user.getUsername() == null || user.getUsername().isBlank()) {
+        throw new IllegalArgumentException("Username cannot be empty.");
+        }
+
         String sql = "INSERT INTO users (username, full_name, password_hash, role, credits) VALUES (?, ?, ?, ?, ?)";
         // SYLLABUS: PreparedStatement - '?' placeholders prevent SQL injection.
         // (Statement.RETURN_GENERATED_KEYS is only a constant; no plain Statement object is used.)
