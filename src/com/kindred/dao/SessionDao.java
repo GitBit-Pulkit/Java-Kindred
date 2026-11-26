@@ -17,12 +17,14 @@ import java.util.Optional;
 /**
  * Data Access Object for the `sessions` table.
  * `users` is JOINed twice (as learner and as teacher) to get both usernames.
- *
  * Status changes use a CONDITIONAL update:
  *    UPDATE ... SET status = 'ACCEPTED' WHERE session_id = ? AND status = 'PENDING'
  * If the row was already changed, 0 rows are affected and the service refuses
  * the action. This stops double-accepting or double-completing a session.
  */
+
+
+//session dao
 // SYLLABUS: CRUD Operations - implements GenericDao<SkillSession, Integer>
 public class SessionDao implements GenericDao<SkillSession, Integer> {
 
@@ -110,7 +112,8 @@ public class SessionDao implements GenericDao<SkillSession, Integer> {
         }
     }
 
-    /** GenericDao update: saves the status of the session object. */
+    /** GenericDao update:  */
+    //saves the status of the session object.
     @Override
     public boolean update(SkillSession session) throws SQLException {
         String sql = "UPDATE sessions SET status = ? WHERE session_id = ?";
@@ -129,7 +132,8 @@ public class SessionDao implements GenericDao<SkillSession, Integer> {
         }
     }
 
-    /** Conditional status change inside the caller's transaction. True only if exactly 1 row changed. */
+    /** Conditional status change inside the caller's transaction. */
+    // True only if exactly 1 row changed.
     public boolean updateStatus(Connection conn, int sessionId, SessionStatus newStatus,
                                 SessionStatus expectedStatus) throws SQLException {
         String sql = "UPDATE sessions SET status = ? WHERE session_id = ? AND status = ?";
@@ -160,7 +164,9 @@ public class SessionDao implements GenericDao<SkillSession, Integer> {
         return list;
     }
 
-    // SYLLABUS: ResultSet mapping with typed getters (getInt, getString, getTimestamp)
+    // skill session
+    // SYLLABUS: ResultSet mapping with typed getters
+    //  (getInt, getString, getTimestamp)
     private SkillSession mapRow(ResultSet rs) throws SQLException {
         Timestamp requested = rs.getTimestamp("requested_at");
         Timestamp updated = rs.getTimestamp("updated_at");
@@ -177,3 +183,4 @@ public class SessionDao implements GenericDao<SkillSession, Integer> {
                 updated.toLocalDateTime());
     }
 }
+
