@@ -2,6 +2,7 @@ package com.kindred.model;
 
 import java.time.LocalDateTime;
 
+
 /**
  * A learning session between a LEARNER (pays credits) and a TEACHER (earns credits).
  * Maps to one row of the `sessions` table.
@@ -9,6 +10,8 @@ import java.time.LocalDateTime;
  * Cost of a session = hours x credits.per.hour (from config/kindred.conf).
  * The usernames are not columns of `sessions`. They come from JOINs with `users`.
  */
+
+
 // SYLLABUS: CRUD Operations - entity created, read and updated by SessionDao (ResultSet mapping)
 public class SkillSession implements CsvExportable {
 
@@ -77,3 +80,9 @@ public class SkillSession implements CsvExportable {
                 sessionId, skillName, learnerUsername, teacherUsername, hours, status);
     }
 }
+
+//`SkillSession.java` defines a Java data model in `com.kindred.model` 
+// that represents a tutoring session between a learner and a teacher, 
+// using `java.time.LocalDateTime` for timestamps alongside internal types `SessionStatus` and `CsvExportable`. 
+// It encapsulates database row attributes from the `sessions` table—along with joined usernames from the `users` table—via two constructors for either initializing a new `PENDING` session request or hydrating an existing record from `SessionDao`. 
+// The class exposes read access to all fields while restricting updates strictly to `sessionId` and `status`, and provides `csvValues()` and `toString()` methods for CSV exporting and formatted console display.
