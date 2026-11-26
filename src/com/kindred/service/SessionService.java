@@ -15,15 +15,17 @@ import java.util.stream.Collectors;
 
 /**
  * SESSION MANAGEMENT: request -> accept/reject -> complete (or cancel).
- *
  * Who may do what:
  *   learner : request, cancel while PENDING, mark COMPLETED once ACCEPTED (this pays the teacher)
  *   teacher : accept or reject while PENDING
  * Only the learner can complete a session, so a teacher can never pay themselves.
- *
- * Every state change PRODUCES notifications into the background queue
- * (NotificationService), so the menu never waits for them.
  */
+
+// 
+ //* Every state change PRODUCES notifications into the background queue
+ //(NotificationService), so the menu never waits for them.
+
+
 public class SessionService {
 
     private final SessionDao sessionDao = new SessionDao();
@@ -108,7 +110,8 @@ public class SessionService {
         notifications.notifyUser(session.getTeacherId(), learner.getUsername() + " cancelled the request for session #" + sessionId + ".");
     }
 
-    /** Learner confirms the lesson happened. Credits move inside a JDBC transaction. */
+    /** Learner confirms the lesson happened. 
+     * Credits move inside a JDBC transaction. */
     public SkillSession completeSession(User learner, int sessionId) throws ServiceException {
         SkillSession done = creditService.completeSession(sessionId, learner.getUserId());
         int cost = done.getHours() * CreditService.creditsPerHour();
@@ -134,17 +137,20 @@ public class SessionService {
         return filterHistory(userId, s -> s.getTeacherId() == userId && s.getStatus() == SessionStatus.PENDING);
     }
 
-    /** My requests (as learner) still waiting for the teacher. */
+    /** My requests (as learner)
+     *  still waiting for the teacher. */
     public List<SkillSession> getMyPendingRequests(int userId) throws ServiceException {
         return filterHistory(userId, s -> s.getLearnerId() == userId && s.getStatus() == SessionStatus.PENDING);
     }
 
-    /** ACCEPTED sessions where I am the learner (these can be marked completed). */
+    /** ACCEPTED sessions 
+     * where I am the learner (these can be marked completed). */
     public List<SkillSession> getSessionsToComplete(int userId) throws ServiceException {
         return filterHistory(userId, s -> s.getLearnerId() == userId && s.getStatus() == SessionStatus.ACCEPTED);
     }
 
-    /** Re-usable filter: the condition is passed in as a lambda. */
+    /** Re-usable filter:
+     *  the condition is passed in as a lambda. */
     // SYLLABUS: Lambdas for filtering - Predicate passed into a Stream filter()
     private List<SkillSession> filterHistory(int userId, Predicate<SkillSession> condition) throws ServiceException {
         return getHistory(userId).stream()
